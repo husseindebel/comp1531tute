@@ -1,0 +1,43 @@
+<div id="theBody"> 
+{% for something in user %}
+    <p> {{something.username}} </p>
+{% endfor %}
+</div>
+    name:<br>
+    <input name="username" type="text" id="username">
+    <br>
+    email:<br>
+    <input name="email" type="text" id="email">
+    <br>
+    <button id="somethingButton">Hussein</button>
+<script>
+(function() {
+    var request;
+    var username;
+    var email;
+    document.getElementById("somethingButton").onclick = function() {
+        username = document.getElementById("username").value;
+        email = document.getElementById("email").value;
+
+        makeRequest("/add", username, email);
+    }
+
+
+    function makeRequest(route, username, email){
+        request = new XMLHttpRequest();
+
+        request.onreadystatechange = alertContents;
+        // something 
+        request.open('POST', 'http://localhost:5000'+route);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.send('username=' + username +"&email="+email);
+    }
+
+    function alertContents(){
+        if (request.readyState == XMLHttpRequest.DONE){
+            var div = document.getElementById('theBody');
+            div.innerHTML += "<p>" + username + "</p>";
+        } 
+    }
+})();
+</script>
